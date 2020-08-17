@@ -33,9 +33,22 @@ class User(AbstractBaseUser, PermissionsMixin):
       verbose_name_plural = ('Users')
 
 
+class File(models.Model):
+    file = models.FileField(blank=False, null=False)
+    car_id = models.CharField(max_length=100, null=True, blank=True)
+    owner = models.CharField(max_length=100, null=True, blank=True)
 
+    def __str__(self):
+        return self.file.name
         
+class PackageFile(models.Model):
+    file = models.FileField(blank=False, null=False)
+    package_id = models.CharField(max_length=100, null=True, blank=True)
+    owner = models.CharField(max_length=100, null=True, blank=True)
 
+    def __str__(self):
+        return self.file.name
+        
 class Package(models.Model):
 
   Meters = 'meters'
@@ -45,13 +58,13 @@ class Package(models.Model):
   biddingClosed= 'biddingClosed'
   biddingSuspended= 'biddingSuspended'
   biddingReopened= 'biddingReopened'
-  pickupPoit = 'pickupPoit'
+  pickupPoint = 'pickupPoint'
   intransit = 'intransit'
   delivered = 'delivered'
   returning = 'returning'
   returned = 'returned'
   COURIER_CHOICES = [
-        (pickupPoit,'pickupPoit'),
+        (pickupPoint,'pickupPoint'),
         (intransit,'intransit'),
         (delivered,'delivered'),
         (returning,'returning'),
@@ -77,8 +90,8 @@ class Package(models.Model):
   qrCode = models.CharField(max_length=100, null=True, blank=True, db_index=True)
   picture = models.ImageField(upload_to="media/%Y/%m/%d",null=True, blank=True)
   available = models.BooleanField(default=True)
-  currentState  = models.CharField(max_length=100, null=True, blank=True, choices=BID_CHOICES, default = biddingOpen)
-  courierState  = models.CharField(max_length=100, null=True, blank=True, choices=COURIER_CHOICES, default = pickupPoit)
+  biddingState  = models.CharField(max_length=100, null=True, blank=True, choices=BID_CHOICES, default = biddingOpen)
+  courierState  = models.CharField(max_length=100, null=True, blank=True, choices=COURIER_CHOICES, default = pickupPoint)
   location = models.PointField(null=True, blank=True)
   pickupAddressCity = models.CharField(max_length=100, null=True, blank=True)
   pickupAddressResidence = models.CharField(max_length=100, null=True, blank=True)

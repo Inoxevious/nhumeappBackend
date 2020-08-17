@@ -17,6 +17,43 @@ from django.db.models.functions import Cast
 from django.http import JsonResponse
 from django.contrib.auth import backends, get_user_model
 from django.db.models import Q
+
+from rest_framework.parsers import FileUploadParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from .serializers import FileSerializer, PackageFileSerializer
+
+class FileUploadView(APIView):
+    parser_class = (FileUploadParser,)
+    
+    def post(self, request, *args, **kwargs):
+      
+      file_serializer = FileSerializer(data=request.data)
+
+      if file_serializer.is_valid():
+          file_serializer.save()
+          new_obj = File.objects.get(id=file_serializer.id)
+          print("New Rides OnBect", new_obj)
+          return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+      else:
+          return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PackgesFileUploadView(APIView):
+    parser_class = (FileUploadParser,)
+    
+    def post(self, request, *args, **kwargs):
+      
+      package_file_serializer = PackageFileSerializer(data=request.data)
+
+      if package_file_serializer.is_valid():
+          package_file_serializer.save()
+          new_obj = PackageFile.objects.get(id=package_file_serializer.id)
+          print("New PACKAGE OnBect", new_obj)
+          return Response(package_file_serializer.data, status=status.HTTP_201_CREATED)
+      else:
+          return Response(package_file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class RidesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Rides
@@ -89,8 +126,12 @@ def packagecreate_list(request):
         serializer = PackageSerializer(data=request.data)
         print('Serilizer', request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            new_packge = serializer.save()
+            packageOwner = request.query_params.get('packageOwner')
+            print('this p0aCKAgte ownr', packageOwner)
+            package = Package.objects.filter(packageOwner__contains = str(packageOwner))
+            print("New PACKAGE OnBect", new_packge.id)
+            return Response(new_packge.id, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -394,49 +435,6 @@ class retrievePackageBidsView(generics.ListAPIView):
             
             return queryset
 
-# @api_view(['GET', 'POST'])
-# def usr_list(request):
-#     print('CURRENT REQUEST', request)
-#     if request.method == 'GET':
-#         email = request.data.get('email')
-#         usr = User.objects.all()
-#         serializer = UserSerializer(usr, context={'request': request}, many=True)
-#         return Response(serializer.data)
-#     elif request.method == 'POST':
-#         print('email', request.data.get('email'))
-#         # usr = User.objects.filter(
-#         #     email__contains=request.data.get('packageID')
-#         # )
-        
-#         serializer = UserSerializer(data=request.data)
-        
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-# @api_view(['GET', 'PUT', 'DELETE'])
-# def usr_detail(request, pk):
-#     try:
-#         bid = AcceptedBids.objects.get(pk=pk)
-#     except AcceptedBids.DoesNotExist:
-#         return Response(status=status.HTTP_400_NOT_FOUND)
-
-#     if request.method == 'GET':
-#         serializer = AcceptedBidsSerializer(acceptedbid, context={'request': request})
-#         return Response(serializer.data)
-    
-#     elif request.method == 'PUT':
-#         serializer = AcceptedBidsSerializer(acceptedbid, data=request.data, context={'request': request})
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-           
-#     elif request.method == 'DELETE':
-#         ride.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class UsrView(generics.ListAPIView):
     """

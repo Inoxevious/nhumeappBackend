@@ -8,8 +8,8 @@ urlpatterns = [
     # Rides Urls
     url(r'^rides/$',ride_list),
     url(r'^rides/(?P<pk>[0-9]+)$',ride_detail),
-
-
+    path('upload/', FileUploadView.as_view()),
+    path('packageupload/', PackgesFileUploadView.as_view()),
 
     # Users Urls
     # path('users/', UserListCreateView.as_view(), name='users_list'),
