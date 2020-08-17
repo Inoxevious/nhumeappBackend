@@ -145,6 +145,37 @@ def userpackages(request):
         return JsonResponse(package, safe=False)
         # return Response(response)
     
+@api_view(['GET', 'PUT', 'DELETE'])
+def carimages(request):
+    owner = request.query_params.get('owner')
+    car_id = request.query_params.get('car_id')
+    print('this p0aCKAgte ownr', owner)
+    try:
+        package = File.objects.filter(owner__contains = str(owner), car_id__contains = str(car_id))
+    except File.DoesNotExist:
+        return Response(status=status.HTTP_400_NOT_FOUND)
+
+    if request.method == 'GET':
+        
+        return JsonResponse(package, safe=False)
+        # return Response(response)
+    
+@api_view(['GET', 'PUT', 'DELETE'])
+def packageimages(request):
+    owner = request.query_params.get('owner')
+    reg_number = request.query_params.get('reg_number')
+    print('this p0aCKAgte ownr', owner)
+    try:
+        package = PackageFile.objects.filter(owner__contains = str(owner), reg_number__contains = str(reg_number))
+    except PackageFile.DoesNotExist:
+        return Response(status=status.HTTP_400_NOT_FOUND)
+
+    if request.method == 'GET':
+        
+        return JsonResponse(package, safe=False)
+        # return Response(response)
+    
+
 
 
 @api_view(['GET', 'PUT', 'DELETE'])

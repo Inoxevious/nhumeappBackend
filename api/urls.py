@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^rides/$',ride_list),
     url(r'^rides/(?P<pk>[0-9]+)$',ride_detail),
     path('upload/', FileUploadView.as_view()),
-    path('packageupload/', PackgesFileUploadView.as_view()),
+    url(r'^carimages/$',carimages),
 
     # Users Urls
     # path('users/', UserListCreateView.as_view(), name='users_list'),
@@ -25,7 +25,9 @@ urlpatterns = [
     url(r'^retrievePrimaryDeliveryAddress/$',RetrievePrimaryDeliveryAddressView.as_view(),name='retrievePrimaryDeliveryAddress'),
     url(r'^retrievePackageByReference/$',retrievePackageByReferenceView.as_view(),name='retrievePackageByReference'),
     url(r'^packages/$', PackageListView.as_view(), name='packages_list'),
-
+    path('packageupload/', PackgesFileUploadView.as_view()),
+    url(r'^packageimages/$',packageimages),
+    
 
         # Package Bids
     url(r'^packagebids/$',packagebids_list),

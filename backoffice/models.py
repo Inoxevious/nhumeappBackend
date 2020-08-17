@@ -150,23 +150,23 @@ class AcceptedBids(models.Model):
 
 class Rides(models.Model):
   SUV = 'SUV'
-  PICKUP_TRUCK = 'PICKUP TRUCK'
-  T_35_TRUCK = 'T_35_TRUCK'
-  T_50_TRUCK = 'T_50_TRUCK'
-  STATION_WAGON = 'STATION WAGON'
+  PICKUP-TRUCK = 'PICKUP-TRUCK'
+  T-35-TRUCK = 'T-35-TRUCK'
+  T-50-TRUCK = 'T-50-TRUCK'
+  STATION-WAGON = 'STATION-WAGON'
   HATCHBACK = 'HATCHBACK'
   MINIVAN = 'MINIVAN'
-  REFRIGERATOR_TRUCK = 'Refrigerator Truck'
+  REFRIGERATOR-TRUCK = 'Refrigerator-Truck'
   SEDAN = 'SEDAN'
   RIDES_CHOICES = [
         (SUV, 'SUV'),
-        (PICKUP_TRUCK, 'PICKUP TRUCK'),
-        (T_35_TRUCK, 'T_35_TRUCK'),
-        (T_50_TRUCK, 'T_50_TRUCK'),
-        (STATION_WAGON, 'STATION WAGON'),
+        (PICKUP-TRUCK, 'PICKUP-TRUCK'),
+        (T-35-TRUCK, 'T-35-TRUCK'),
+        (T-50-TRUCK, 'T-50-TRUCK'),
+        (STATION-WAGON, 'STATION-WAGON'),
         (HATCHBACK, 'HATCHBACK'),
         (MINIVAN, 'MINIVAN'),
-        (REFRIGERATOR_TRUCK, 'Refrigerator Truck'),
+        (REFRIGERATOR-TRUCK, 'Refrigerator Truck'),
         (SEDAN, 'SEDAN'),
     ]
   id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
