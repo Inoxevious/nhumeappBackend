@@ -33,8 +33,6 @@ class FileUploadView(APIView):
 
       if file_serializer.is_valid():
           file_serializer.save()
-          new_obj = File.objects.get(id=file_serializer.id)
-          print("New Rides OnBect", new_obj)
           return Response(file_serializer.data, status=status.HTTP_201_CREATED)
       else:
           return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -48,8 +46,6 @@ class PackgesFileUploadView(APIView):
 
       if package_file_serializer.is_valid():
           package_file_serializer.save()
-          new_obj = PackageFile.objects.get(id=package_file_serializer.id)
-          print("New PACKAGE OnBect", new_obj)
           return Response(package_file_serializer.data, status=status.HTTP_201_CREATED)
       else:
           return Response(package_file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
