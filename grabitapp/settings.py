@@ -56,10 +56,10 @@ INSTALLED_APPS = [
     'cart',
     'jet',
     'mapwidgets',
+    'corsheaders',
     'rest_framework',
     'rest_framework_gis',
     'oauth2_provider',
-    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -79,6 +79,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 CORS_ORIGIN_ALLOW_ALL=True
+
 ROOT_URLCONF = 'grabitapp.urls'
 
 TEMPLATES = [
