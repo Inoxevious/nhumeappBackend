@@ -159,7 +159,41 @@ def carimages(request):
         
         return JsonResponse(package, safe=False)
         # return Response(response)
-    
+class retrievePackageImagesView(generics.ListAPIView):
+    """
+            get:
+                Search or get bids
+    """
+    queryset = PackageFile.objects.all()
+    serializer_class = PackageFileSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('package_id', )
+
+    def get_queryset(self):
+            package_id = self.request.query_params.get('package_id')
+            queryset = PackageFile.objects.filter(package_id__contains = str(package_id))
+            print('owner bids', queryset)
+            
+            return queryset
+class retrieveCarImagesView(generics.ListAPIView):
+    """
+            get:
+                Search or get bids
+    """
+    queryset = File.objects.all()
+    serializer_class = FileSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('car_id', )
+
+    def get_queryset(self):
+            owner = self.request.query_params.get('owner')
+            car_id = self.request.query_params.get('car_id')
+            # packageID = self.request.query_params.get('packageID')
+            queryset = File.objects.filter(owner__contains = str(owner), car_id__contains = str(car_id))
+            print('package images', queryset)
+            
+            return queryset
+
 @api_view(['GET', 'PUT', 'DELETE'])
 def packageimages(request):
     owner = request.query_params.get('owner')

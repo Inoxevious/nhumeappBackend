@@ -10,6 +10,9 @@ urlpatterns = [
     url(r'^rides/(?P<pk>[0-9]+)$',ride_detail),
     path('upload/', FileUploadView.as_view()),
     url(r'^carimages/$',carimages),
+    
+    url(r'^retrieveCarImagesView/$',retrieveCarImagesView.as_view(),name='retrieveCarImagesView'),
+
 
     # Users Urls
     # path('users/', UserListCreateView.as_view(), name='users_list'),
