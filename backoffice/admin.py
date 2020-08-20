@@ -50,9 +50,19 @@ class DriversAdmin(admin.ModelAdmin):
     # ]
     list_display = ('license_number','years_experience','owner')
     list_filter = ('license_class','years_experience')
+class AppVersionAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        PointField: {"widget": GooglePointFieldInlineWidget}
+    }
+    # fieldsets = [
+    #     (None, {'fields': ['reference','qrCode','picture','location','deliveryAddress','unitNumber','package_user','available','valid']}),
+    # ]
+    list_display = ('version_name','app_version','app_upload_date','app_expire_date')
+    list_filter = ('app_version','app_upload_date')
 
 admin.site.register(User)
 admin.site.register(Rides,RidesAdmin)
+admin.site.register(AppVersion,AppVersionAdmin)
 admin.site.register(Driver,DriversAdmin)
 admin.site.register(File,FileAdmin)
 admin.site.register(PackageFile,PackageFileAdmin)

@@ -9,6 +9,19 @@ from backoffice.UserManager import UserManager
 from django.contrib.auth.hashers import get_hasher, identify_hasher
 import uuid
 
+
+class AppVersion(models.Model):
+  file =  models.FileField(blank=False, null=False)
+  version_name = models.CharField(max_length=100, null=True, blank=True,db_index=True)
+  app_version = models.CharField(max_length=100, null=True, blank=True,db_index=True)
+  app_upload_date = models.DateTimeField()
+  app_expire_date = models.DateTimeField()
+  class Meta:
+      verbose_name = ('AppVersion')
+      verbose_name_plural = ('AppVersion')
+  def __str__(self):
+    return self.version_name
+    
 class User(AbstractBaseUser, PermissionsMixin):
 
   id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

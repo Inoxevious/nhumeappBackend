@@ -441,6 +441,40 @@ class retrieveRideByEmailView(generics.ListAPIView):
             print('owner ride', queryset)
             
             return queryset
+class retrieveDriverByEmailView(generics.ListAPIView):
+    """
+            get:
+                Search or get ride
+    """
+    queryset = Driver.objects.all()
+    serializer_class = DriverSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('owner', )
+
+    def get_queryset(self):
+            owner = self.request.query_params.get('owner')
+            queryset = Driver.objects.filter(owner__contains = str(owner))
+            print('owner ride', queryset)
+            
+            return queryset
+
+class retrieveRideByRegNumberView(generics.ListAPIView):
+    """
+            get:
+                Search or get ride
+    """
+    queryset = Rides.objects.all()
+    serializer_class = RidesSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('reg_number', )
+
+    def get_queryset(self):
+            reg_number = self.request.query_params.get('reg_number')
+            queryset = Rides.objects.filter(reg_number__contains = str(reg_number))
+            print('reg_number ride', queryset)
+            
+            return queryset
+
 
 
 class UserListView(generics.ListAPIView):
@@ -734,6 +768,19 @@ def packageupload_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET', 'POST'])
+def appdata(request):
+    if request.method == 'GET':
+        ride = File.objects.all()
+        serializer = FileSerializer(ride, context={'request': request}, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        if serializer.is_valid():
+
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def revokedbid_detail(request, pk):
@@ -773,5 +820,25 @@ class retrieveRevokedBidsView(generics.ListAPIView):
             bidState__contains = 'revoked'
             )
             print('owner bids', queryset)
+            
+            return queryset
+
+class AppVersionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AppVersion
+        fields = '__all__'
+
+class appDataView(generics.ListAPIView):
+    """
+            get:
+                Search or get app
+    """
+    queryset = AppVersion.objects.all()
+    serializer_class = AppVersionSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('version_name','app_expire_date' )
+
+    def get_queryset(self):
+            queryset = AppVersion.objects.all()
             
             return queryset

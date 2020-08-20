@@ -14,7 +14,9 @@ urlpatterns = [
     
     path('upload/', FileUploadView.as_view()),
     url(r'^carimages/$',carimages),
-    
+    url(r'^retrieveDriverByEmail/$',retrieveDriverByEmailView.as_view(),name='retrieveDriverByEmailView'),
+    url(r'^getDriverRegNumberUrlView/$',retrieveRideByRegNumberView.as_view(),name='retrieveRideByRegNumberView'),
+
     url(r'^retrieveCarImagesView/$',retrieveCarImagesView.as_view(),name='retrieveCarImagesView'),
 
 
@@ -53,5 +55,11 @@ urlpatterns = [
     path('', include(router.urls)),
     # Transactions Urls
     url(r'^createpaymentintent/$',createpaymentintent,name='createpaymentintent'),
+
+    path('appdata/', appdata, name='appdata'),
+    url(r'^appDataView/$',appDataView.as_view(),name='appDataView'),
+
+ 
+    
     
 ]
