@@ -65,6 +65,78 @@ class AcceptedBidsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AcceptedBids
         fields = '__all__'
+class DriverSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Driver
+        fields = '__all__'
+@api_view(['GET', 'POST'])
+def driver_list(request):
+    print('CURRENT REQUEST', request)
+    if request.method == 'GET':
+        drivers = Driver.objects.all()
+        serializer = DriverSerializer(drivers, context={'request': request}, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = DriverSerializer(data=request.data)
+        print('Serilizer', request.data)
+        if serializer.is_valid():
+            owner = request.data.get('owner')
+            license_number = request.data.get('license_number')
+            print('this p0aCKAgte ownr', owner, license_number)
+            ride = Driver.objects.filter(owner__contains = str(owner), license_number__contains = str(license_number) )
+            if(ride):
+                file = request.query_params.get('file')
+                if(file):
+                    driver = Driver.objects.filter(owner__contains = str(owner), 
+                    license_number__contains = str(license_number)).update(
+                        file = file
+                    )
+                else:
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                # driver_id = driver.id
+
+            else:
+                new_driver = serializer.save()
+                print("New driver OnBect", new_driver.id)
+                
+                if(request.query_params.get('file')):
+                    file = request.query_params.get('file')
+                    driver = Driver.objects.get(id = str(new_driver.id)).update(
+                        file = file
+                    )
+                return Response(new_driver.id, status=status.HTTP_201_CREATED)
+
+
+            
+            # packageOwner = request.query_params.get('packageOwner')
+            # print('this p0aCKAgte ownr', packageOwner)
+            # package = Package.objects.filter(packageOwner__contains = str(packageOwner))
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def driver_detail(request, pk):
+    try:
+        driver = Driver.objects.get(pk=pk)
+    except Driver.DoesNotExist:
+        return Response(status=status.HTTP_400_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = DriverSerializer(driver, context={'request': request})
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        serializer = DriverSerializer(driver, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+           
+    elif request.method == 'DELETE':
+        driver.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 @api_view(['GET', 'POST'])
 def ride_list(request):
     print('CURRENT REQUEST', request)

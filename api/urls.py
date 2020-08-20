@@ -5,6 +5,9 @@ router = DefaultRouter()
 from .views import *
 
 urlpatterns = [
+        # Drivers Urls
+    url(r'^drivers/$',driver_list),
+    url(r'^drivers/(?P<pk>[0-9]+)$',driver_detail),
     # Rides Urls
     url(r'^rides/$',ride_list),
     url(r'^rides/(?P<pk>[0-9]+)$',ride_detail),

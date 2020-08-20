@@ -153,6 +153,7 @@ class AcceptedBids(models.Model):
   timeAccepted = models.TimeField(auto_now_add=True, null=True)
 
 class Rides(models.Model):
+  
   SUV = 'SUV'
   PICKUP = 'PICKUP'
   LORRY = 'LORRY'
@@ -178,4 +179,23 @@ class Rides(models.Model):
   ride_category = models.CharField(max_length=100, null=True, blank=True, choices=RIDES_CHOICES, default = SUV )
   def __str__(self):
     return self.owner
-        
+  
+class Driver(models.Model):
+  One = 'One'
+  Two = 'Two'
+  Four = 'Four'
+  Five = 'Five'
+  LICENCE_CHOICES = [
+          (One, 'One'),
+          (Two, 'Two'),
+          (Four, 'Four'),
+          (Five, 'Five'),
+      ]
+  id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+  owner = models.CharField(max_length=100, null=True, blank=True)
+  license_number  = models.CharField(max_length=100, null=True, blank=True)
+  years_experience  = models.CharField(max_length=100, null=True, blank=True)
+  file = models.FileField(blank=True, null=True)
+  license_class = models.CharField(max_length=100, null=True, blank=True, choices=LICENCE_CHOICES, default = Four )
+  def __str__(self):
+    return self.owner

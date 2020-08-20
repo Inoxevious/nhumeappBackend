@@ -40,9 +40,20 @@ class RidesAdmin(admin.ModelAdmin):
     # ]
     list_display = ('reg_number','ride_category','owner')
     list_filter = ('reg_number','ride_category')
+    
+class DriversAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        PointField: {"widget": GooglePointFieldInlineWidget}
+    }
+    # fieldsets = [
+    #     (None, {'fields': ['reference','qrCode','picture','location','deliveryAddress','unitNumber','package_user','available','valid']}),
+    # ]
+    list_display = ('license_number','years_experience','owner')
+    list_filter = ('license_class','years_experience')
 
 admin.site.register(User)
 admin.site.register(Rides,RidesAdmin)
+admin.site.register(Driver,DriversAdmin)
 admin.site.register(File,FileAdmin)
 admin.site.register(PackageFile,PackageFileAdmin)
 admin.site.register(Package,PackageAdmin)
