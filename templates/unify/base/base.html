@@ -18,19 +18,21 @@
 
     <!-- CSS Global Compulsory -->
     <link rel="stylesheet" href="{% static 'unify/assets/vendor/bootstrap/bootstrap.min.css' %}">
-
-    <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="{% static 'unify/assets/vendor/icon-awesome/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'unify/assets/vendor/icon-line-pro/style.css' %}">
-    <link rel="stylesheet" href="{% static 'unify/assets/vendor/slick-carousel/slick/slick.css' %}">
-    <link rel="stylesheet" href="{% static 'unify/assets/vendor/icon-hs/style.css' %}">
-    <link rel="stylesheet" href="{% static 'unify/assets/vendor/hamburgers/hamburgers.min.css' %}">
-    <link rel="stylesheet" href="{% static 'unify/assets/vendor/hs-megamenu/src/hs.megamenu.css' %}">
-    <link rel="stylesheet" href="{% static 'unify/assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.min.css' %}">
-    <link rel="stylesheet" href="{% static 'unify/assets/vendor/animate.css' %}">
+   <!-- CSS Implementing Plugins -->
+   <link rel="stylesheet" href="{% static 'unify/assets/vendor/icon-awesome/css/font-awesome.min.css' %}">
+   <link rel="stylesheet" href="{% static 'unify/assets/vendor/icon-line/css/simple-line-icons.css' %}">
+   <link rel="stylesheet" href="{% static 'unify/assets/vendor/icon-hs/style.css' %}">
+   <link rel="stylesheet" href="{% static 'unify/assets/vendor/hamburgers/hamburgers.min.css' %}">
+   <link rel="stylesheet" href="{% static 'unify/assets/vendor/animate.css' %}">
+   <link rel="stylesheet" href="{% static 'unify/assets/vendor/dzsparallaxer/dzsparallaxer.css' %}">
+   <link rel="stylesheet" href="{% static 'unify/assets/vendor/dzsparallaxer/dzsscroller/scroller.css' %}">
+   <link rel="stylesheet" href="{% static 'unify/assets/vendor/dzsparallaxer/advancedscroller/plugin.css' %}">
+   <link rel="stylesheet" href="{% static 'unify/assets/vendor/fancybox/jquery.fancybox.css' %}">
+   <link rel="stylesheet" href="{% static 'unify/assets/vendor/cubeportfolio-full/cubeportfolio/css/cubeportfolio.min.css' %}">
+   <link rel="stylesheet" href="{% static 'unify/assets/vendor/slick-carousel/slick/slick.css' %}">
 
     <!-- CSS Unify Theme -->
-    <link rel="stylesheet" href="{% static 'unify/ecassets/css/styles.e-commerce.css' %}">
+    <link rel="stylesheet" href="{% static 'unify/ecassets/assets/css/styles.op-app.css' %}">
 
     <!-- CSS Customization -->
     <link rel="stylesheet" href="{% static 'unify/assets/css/custom.css' %}">
@@ -38,139 +40,102 @@
 
   <body>
     <main>
-        {% include 'unify/_parts/_top_bar.html'%}
-        {% include 'unify/_parts/_nav_bar.html'%}  
+   
         
        {% block content %}
        
        {% endblock %}
-       {% include 'unify/footer.html' %} 
-        <a class="js-go-to u-go-to-v2" href="#"
-        data-type="fixed"
-        data-position='{
-          "bottom": 15,
-          "right": 15
-        }'
-        data-offset-top="400"
-        data-compensation="#js-header"
-        data-show-effect="zoomIn">
-       <i class="hs-icon hs-icon-arrow-top"></i>
-     </a>
-   </main>
+      
+       <a class="js-go-to u-go-to-v1" href="#"
+       data-type="fixed"
+       data-position='{
+         "bottom": 15,
+         "right": 15
+       }'
+       data-offset-top="400"
+       data-compensation="#js-header"
+       data-show-effect="zoomIn">
+      <i class="hs-icon hs-icon-arrow-top"></i>
+    </a>
+  </main>
 
-   <div class="u-outer-spaces-helper"></div>
+  <!-- JS Global Compulsory -->
+  <script src="{% static 'unify/assets/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'unify/assets/vendor/jquery-migrate/jquery-migrate.min.js' %}"></script>
+  <script src="{% static 'unify/assets/vendor/popper.js' %}/popper.min.js' %}"></script>
+  <script src="{% static 'unify/assets/vendor/bootstrap/bootstrap.min.js' %}"></script>
 
-   <!-- JS Global Compulsory -->
-   <script src="{% static 'unify/assets/vendor/jquery/jquery.min.js' %}"></script>
-   <script src="{% static 'unify/assets/vendor/jquery-migrate/jquery-migrate.min.js' %}"></script>
-   <script src="{% static 'unify/assets/vendor/popper.js/popper.min.js' %}"></script>
-   <script src="{% static 'unify/assets/vendor/bootstrap/bootstrap.min.js' %}"></script>
+  <!-- JS Implementing Plugins -->
+  <script src="{% static 'unify/assets/vendor/appear.js' %}"></script>
+  <script src="{% static 'unify/assets/vendor/dzsparallaxer/dzsparallaxer.js' %}"></script>
+  <script src="{% static 'unify/assets/vendor/dzsparallaxer/dzsscroller/scroller.js' %}"></script>
+  <script src="{% static 'unify/assets/vendor/dzsparallaxer/advancedscroller/plugin.js' %}"></script>
+  <script src="{% static 'unify/assets/vendor/fancybox/jquery.fancybox.js' %}"></script>
+  <script src="{% static 'unify/assets/vendor/cubeportfolio-full/cubeportfolio/js/jquery.cubeportfolio.min.js' %}"></script>
+  <script src="{% static 'unify/assets/vendor/slick-carousel/slick/slick.js' %}"></script>
 
-   <!-- JS Implementing Plugins -->
-   <script src="{% static 'unify/assets/vendor/jquery.countdown.min.js' %}"></script>
-   <script src="{% static 'unify/assets/vendor/slick-carousel/slick/slick.js' %}"></script>
-   <script src="{% static 'unify/assets/vendor/hs-megamenu/src/hs.megamenu.js' %}"></script>
-   <script src="{% static 'unify/assets/vendor/malihu-scrollbar/jquery.mCustomScrollbar.concat.min.js' %}"></script>
-   <script src="{% static 'unify/assets/vendor/appear.js' %}"></script>
+  <!-- JS Unify -->
+  <script src="{% static 'unify/assets/js/hs.core.js' %}"></script>
+  <script src="{% static 'unify/assets/js/components/hs.header.js' %}"></script>
+  <script src="{% static 'unify/assets/js/helpers/hs.hamburgers.js' %}"></script>
+  <script src="{% static 'unify/assets/js/components/hs.scroll-nav.js' %}"></script>
+  <script src="{% static 'unify/assets/js/components/hs.onscroll-animation.js' %}"></script>
+  <script src="{% static 'unify/assets/js/components/hs.tabs.js' %}"></script>
+  <script src="{% static 'unify/assets/js/components/hs.cubeportfolio.js' %}"></script>
+  <script src="{% static 'unify/assets/js/components/hs.popup.js' %}"></script>
+  <script src="{% static 'unify/assets/js/components/hs.carousel.js' %}"></script>
+  <script src="{% static 'unify/assets/js/components/hs.go-to.js' %}"></script>
 
-   <!-- JS Unify -->
-   <script src="{% static 'unify/assets/js/hs.core.js' %}"></script>
-   <script src="{% static 'unify/assets/js/components/hs.header.js' %}"></script>
-   <script src="{% static 'unify/assets/js/helpers/hs.hamburgers.js' %}"></script>
-   <script src="{% static 'unify/assets/js/components/hs.dropdown.js' %}"></script>
-   <script src="{% static 'unify/assets/js/components/hs.scrollbar.js' %}"></script>
-   <script src="{% static 'unify/assets/js/components/hs.countdown.js' %}"></script>
-   <script src="{% static 'unify/assets/js/components/hs.count-qty.js' %}"></script>
-   <script src="{% static 'unify/assets/js/components/hs.carousel.js' %}"></script>
-   <script src="{% static 'unify/assets/js/components/hs.go-to.js' %}"></script>
+<!-- JS Customization -->
+  <script src="{% static 'unify/assets/js/custom.js' %}"></script>
 
-   <!-- JS Customization -->
-   <script src="{% static 'unify/assets/js/custom.js' %}"></script>
+  <!-- JS Plugins Init. -->
+  <script>
+    $(document).on('ready', function () {
+      // initialization of carousel
+      $.HSCore.components.HSCarousel.init('.js-carousel');
 
-   <!-- JS Plugins Init. -->
-   <script>
-     $(document).on('ready', function () {
-       // initialization of carousel
-       $.HSCore.components.HSCarousel.init('[class*="js-carousel"]');
+      // initialization of header
+      $.HSCore.components.HSHeader.init($('#js-header'));
+      $.HSCore.helpers.HSHamburgers.init('.hamburger');
 
-       $('#carouselCus1').slick('setOption', 'responsive', [{
-         breakpoint: 1200,
-         settings: {
-           slidesToShow: 4
-         }
-       }, {
-         breakpoint: 992,
-         settings: {
-           slidesToShow: 3
-         }
-       }, {
-         breakpoint: 768,
-         settings: {
-           slidesToShow: 2
-         }
-       }], true);
+      // initialization of tabs
+      $.HSCore.components.HSTabs.init('[role="tablist"]');
 
-       $('#carouselCus2').slick('setOption', 'responsive', [{
-         breakpoint: 1200,
-         settings: {
-           slidesToShow: 3
-         }
-       }, {
-         breakpoint: 992,
-         settings: {
-           slidesToShow: 2
-         }
-       }, {
-         breakpoint: 768,
-         settings: {
-           slidesToShow: 1
-         }
-       }, {
-         breakpoint: 480,
-         settings: {
-           slidesToShow: 1
-         }
-       }], true);
-     });
+      // initialization of scroll animation
+      $.HSCore.components.HSOnScrollAnimation.init('[data-animation]');
 
-     // initialization of header
-     $.HSCore.components.HSHeader.init($('#js-header'));
-     $.HSCore.helpers.HSHamburgers.init('.hamburger');
+      // initialization of go to section
+      $.HSCore.components.HSGoTo.init('.js-go-to');
 
-     // initialization of HSMegaMenu component
-     $('.js-mega-menu').HSMegaMenu({
-       event: 'hover',
-       pageContainer: $('.container'),
-       breakpoint: 991
-     });
+      // initialization of popups
+      $.HSCore.components.HSPopup.init('.js-fancybox-media', {
+        helpers: {
+          media: {},
+          overlay: {
+            css: {
+              'background': 'rgba(255, 255, 255, .8)'
+            }
+          }
+        }
+      });
+    });
 
-     // initialization of HSDropdown component
-     $.HSCore.components.HSDropdown.init($('[data-dropdown-target]'), {
-       afterOpen: function () {
-         $(this).find('input[type="search"]').focus();
-       }
-     });
+    $(window).on('load', function() {
+      // initialization of HSScrollNav
+      $.HSCore.components.HSScrollNav.init($('#js-scroll-nav'), {
+        duration: 700
+      });
 
-     // initialization of go to
-     $.HSCore.components.HSGoTo.init('.js-go-to');
+      // initialization of cubeportfolio
+      $.HSCore.components.HSCubeportfolio.init('.cbp');
+    });
 
-     // initialization of quantity counter
-     $.HSCore.components.HSCountQty.init('.js-quantity');
-
-     // initialization of countdowns
-     var countdowns = $.HSCore.components.HSCountdown.init('.js-countdown', {
-       yearsElSelector: '.js-cd-years',
-       monthElSelector: '.js-cd-month',
-       daysElSelector: '.js-cd-days',
-       hoursElSelector: '.js-cd-hours',
-       minutesElSelector: '.js-cd-minutes',
-       secondsElSelector: '.js-cd-seconds'
-     });
-
-     $(window).on('load', function() {
-       // initialization of HSScrollBar component
-       $.HSCore.components.HSScrollBar.init($('.js-scrollbar'));
-     });
-   </script>
+    $(window).on('resize', function () {
+      setTimeout(function () {
+        $.HSCore.components.HSTabs.init('[role="tablist"]');
+      }, 200);
+    });
+  </script>
  </body>
 </html>

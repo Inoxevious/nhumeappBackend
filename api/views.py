@@ -23,13 +23,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import FileSerializer, PackageFileSerializer
+from rest_framework.parsers import FileUploadParser
 
 class FileUploadView(APIView):
     parser_class = (FileUploadParser,)
     
     def post(self, request, *args, **kwargs):
       
-      file_serializer = FileSerializer(data=request.data)
+      file_serializer = RidesSerializer(data=request.data)
 
       if file_serializer.is_valid():
           file_serializer.save()
@@ -53,7 +54,7 @@ class PackgesFileUploadView(APIView):
 class RidesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Rides
-        fields = ('owner','reg_number','ride_category','maxWeight')
+        fields = ('id','owner','reg_number','ride_category','maxWeight','file')
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -75,8 +76,38 @@ def ride_list(request):
         serializer = RidesSerializer(data=request.data)
         print('Serilizer', request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            owner = request.data.get('owner')
+            reg_number = request.data.get('reg_number')
+            print('this p0aCKAgte ownr', owner, reg_number)
+            ride = Rides.objects.filter(owner__contains = str(owner), reg_number__contains = str(owner) )
+            if(ride):
+                picture = request.query_params.get('file')
+                if(picture):
+                    ride = Rides.objects.filter(owner__contains = str(owner), 
+                    reg_number__contains = str(owner)).update(
+                        picture = picture
+                    )
+                else:
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                # ride_id = ride.id
+
+            else:
+                new_packge = serializer.save()
+                print("New Ride OnBect", new_packge.id)
+                
+                if(request.query_params.get('file')):
+                    picture = request.query_params.get('file')
+                    ride = Rides.objects.get(id = str(new_packge.id)).update(
+                        picture = picture
+                    )
+                return Response(new_packge.id, status=status.HTTP_201_CREATED)
+
+
+            
+            # packageOwner = request.query_params.get('packageOwner')
+            # print('this p0aCKAgte ownr', packageOwner)
+            # package = Package.objects.filter(packageOwner__contains = str(packageOwner))
+            
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -147,17 +178,17 @@ def userpackages(request):
     
 @api_view(['GET', 'PUT', 'DELETE'])
 def carimages(request):
-    owner = request.query_params.get('owner')
     car_id = request.query_params.get('car_id')
-    print('this p0aCKAgte ownr', owner)
+    print('this p0aCKAgte ownr', car_id)
     try:
-        package = File.objects.filter(owner__contains = str(owner), car_id__contains = str(car_id))
+        ride = File.objects.filter(car_id__contains = str(car_id))
     except File.DoesNotExist:
         return Response(status=status.HTTP_400_NOT_FOUND)
 
     if request.method == 'GET':
+        serializer = FileSerializer(ride, context={'request': request})
+        return Response(serializer.data)
         
-        return JsonResponse(package, safe=False)
         # return Response(response)
 class retrievePackageImagesView(generics.ListAPIView):
     """
@@ -606,6 +637,26 @@ def revokedbids_list(request):
         )
         serializer = AcceptedBidsSerializer(data=request.data)
         print('Serilizer', request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'POST'])
+def packageupload_list(request):
+    print('CURRENT REQUEST', request)
+    if request.method == 'GET':
+        ride = File.objects.all()
+        serializer = FileSerializer(ride, context={'request': request}, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        print('car_id', request.data.get('car_id'))
+        ride = Rides.objects.filter(
+            id__contains=request.data.get('car_id')
+        ).update(
+              file  = request.data.get('file')
+              
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

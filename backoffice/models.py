@@ -34,15 +34,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class File(models.Model):
-    file = models.FileField(blank=False, null=False)
+    # file = models.FileField(blank=False, null=False)
+    image = models.ImageField(upload_to="media/%Y/%m/%d",null=True, blank=True)
     car_id = models.CharField(max_length=100, null=True, blank=True)
     owner = models.CharField(max_length=100, null=True, blank=True)
+    reg_number = models.CharField(max_length=100, null=True, blank=True)
 
-    def __str__(self):
-        return self.file.name
+    # def __str__(self):
+    #     return self.reg_number
         
 class PackageFile(models.Model):
-    file = models.FileField(blank=False, null=False)
+    file =  models.FileField(blank=False, null=False)
     package_id = models.CharField(max_length=100, null=True, blank=True)
     owner = models.CharField(max_length=100, null=True, blank=True)
 
@@ -51,9 +53,10 @@ class PackageFile(models.Model):
         
 class Package(models.Model):
 
-  Meters = 'meters'
-  Kilograms = 'kg'
-  Liters = 'ltrs'
+  Meters = 'Meters'
+  Kilograms = 'Kilograms'
+  Liters = 'Liters'
+  Mililitres = "Mililitres"
   biddingOpen = 'biddingOpen'
   biddingClosed= 'biddingClosed'
   biddingSuspended= 'biddingSuspended'
@@ -77,9 +80,10 @@ class Package(models.Model):
         (biddingReopened,'Bidding Reopened'),
     ]
   MEASURE_CHOICES = [
-        (Meters,'meters'),
-        (Kilograms,'kg'),
-        (Liters,'ltrs'),
+        (Meters,'Meters'),
+        (Kilograms,'Kilograms'),
+        (Liters,'Liters'),
+        (Mililitres,'Mililitres'),
     ]
   id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
   packageOwner = models.CharField(max_length=100, null=True, blank=True)
@@ -170,6 +174,7 @@ class Rides(models.Model):
   owner = models.CharField(max_length=100, null=True, blank=True)
   reg_number  = models.CharField(max_length=100, null=True, blank=True)
   maxWeight  = models.CharField(max_length=100, null=True, blank=True)
+  file = models.FileField(blank=True, null=True)
   ride_category = models.CharField(max_length=100, null=True, blank=True, choices=RIDES_CHOICES, default = SUV )
   def __str__(self):
     return self.owner

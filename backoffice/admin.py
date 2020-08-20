@@ -18,7 +18,7 @@ class FileAdmin(admin.ModelAdmin):
     # fieldsets = [
     #     (None, {'fields': ['reference','qrCode','picture','location','deliveryAddress','unitNumber','package_user','available','valid']}),
     # ]
-    list_display = ('car_id','file','owner')
+    list_display = ('car_id','image','owner')
     list_filter = ('car_id','owner')
 
 class PackageFileAdmin(admin.ModelAdmin):
