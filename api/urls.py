@@ -11,7 +11,7 @@ urlpatterns = [
     # Rides Urls
     url(r'^rides/$',ride_list),
     url(r'^rides/(?P<pk>[0-9]+)$',ride_detail),
-    
+    url(r'^getride/$',getride),
     path('upload/', FileUploadView.as_view()),
     url(r'^carimages/$',carimages),
     url(r'^retrieveDriverByEmail/$',retrieveDriverByEmailView.as_view(),name='retrieveDriverByEmailView'),

@@ -212,6 +212,45 @@ class PackageSerializer(serializers.ModelSerializer):
 
         def get_distance(self, obj):
             return obj.distance_to_user.km
+@api_view(['GET', 'POST'])
+def getdriver(request):
+    print('CURRENT REQUEST', request)
+    if request.method == 'GET':
+        packages = Package.objects.all()
+        serializer = PackageSerializer(packages, context={'request': request}, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = PackageSerializer(data=request.data)
+        print('Serilizer', request.data)
+        if serializer.is_valid():
+            new_packge = serializer.save()
+            packageOwner = request.query_params.get('packageOwner')
+            print('this p0aCKAgte ownr', packageOwner)
+            package = Package.objects.filter(packageOwner__contains = str(packageOwner))
+            print("New PACKAGE OnBect", new_packge.id)
+            return Response(new_packge.id, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def getride(request):
+    print('CURRENT REQUEST', request)
+    reg_number = request.query_params.get('reg_number')
+    try:
+        ride = File.objects.filter(reg_number__iexact = str(reg_number))
+    except File.DoesNotExist:
+        return Response(status=status.HTTP_400_NOT_FOUND)
+    if request.method == 'GET':
+        ride = ''
+        # packages = Package.objects.all()
+        reg_number = request.query_params.get('reg_number')
+        # serializer = PackageSerializer(packages, context={'request': request}, many=True)
+        rides = Rides.objects.filter(reg_number__iexact = str(reg_number))
+        print("Ride e", ride)
+        for r in rides:
+            ride = r.reg_number
+        serializer = RidesSerializer(ride, context={'request': request}, many=True)
+        return Response(serializer.data)
 
 @api_view(['GET', 'POST'])
 def packagecreate_list(request):

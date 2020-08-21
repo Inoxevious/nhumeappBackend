@@ -19,6 +19,7 @@ django-appconf==1.0.4
 django-cart==1.0.4
 django-classy-tags==1.0.0
 django-cms==3.7.3
+django-cors-headers==3.4.0
 django-cors-middleware==1.5.0
 django-entangled==0.3
 django-filer==1.7.1
@@ -51,9 +52,12 @@ docker-compose==1.25.5
 dockerpty==0.4.1
 docopt==0.6.2
 docutils==0.15.2
+drfdocs @ git+https://github.com/mago960806/django-rest-framework-docs.git@7f8dbff17ebc5cdaa6c1741ee62f982cf9eed9b1
 easy-thumbnails==2.7
 emoji==0.5.4
 future==0.16.0
+geographiclib==1.50
+geopy==2.0.0
 html5lib==1.1
 idna==2.7
 importlib-metadata==1.7.0
@@ -64,6 +68,7 @@ oauthlib==3.1.0
 paramiko==2.7.1
 pathspec==0.5.9
 paynow==1.0.4
+Pillow==5.1.0
 psycopg2-binary==2.8.5
 pyactiveresource==2.2.1
 pycparser==2.20

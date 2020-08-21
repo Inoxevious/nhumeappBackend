@@ -79,6 +79,14 @@ class Package(models.Model):
   delivered = 'delivered'
   returning = 'returning'
   returned = 'returned'
+  Gweru = 'Gweru'
+  Harare = 'Harare'
+  Mutare = 'Mutare'
+  Bulawayo = 'Bulawayo'
+  Victoria_Falls = 'Victoria Falls'
+  Beitbridge = 'Beitbridge'
+  Zimbabwe = 'Zimbabwe'
+  Zambia = 'Zambia'
   COURIER_CHOICES = [
         (pickupPoint,'pickupPoint'),
         (intransit,'intransit'),
@@ -98,6 +106,20 @@ class Package(models.Model):
         (Liters,'Liters'),
         (Mililitres,'Mililitres'),
     ]
+  COUNTRY_CHOICES = [
+        (Zimbabwe,'Zimbabwe'),
+        (Zambia,'Zambia'),
+
+    ]
+  CITY_CHOICES = [
+        (Gweru,'Gweru'),
+        (Harare,'Harare'),
+        (Mutare,'Mutare'),
+        (Bulawayo,'Bulawayo'),
+        (Victoria_Falls,'Victoria_Falls'),
+        (Beitbridge,'Beitbridge'),
+
+    ]
   id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
   packageOwner = models.CharField(max_length=100, null=True, blank=True)
   reference = models.CharField(max_length=100,db_index=True)
@@ -110,20 +132,39 @@ class Package(models.Model):
   biddingState  = models.CharField(max_length=100, null=True, blank=True, choices=BID_CHOICES, default = biddingOpen)
   courierState  = models.CharField(max_length=100, null=True, blank=True, choices=COURIER_CHOICES, default = pickupPoint)
   location = models.PointField(null=True, blank=True)
-  pickupAddressCity = models.CharField(max_length=100, null=True, blank=True)
+  pickupAddressCity = models.CharField(max_length=100, null=True, blank=True, choices=CITY_CHOICES, default = Gweru)
   pickupAddressResidence = models.CharField(max_length=100, null=True, blank=True)
   pickupAddressNeigbhourhood = models.CharField(max_length=100, null=True, blank=True)
   deliveryLocation = models.PointField(null=True, blank=True)
-  deliveryAddressCity = models.CharField(max_length=100, null=True, blank=True)
+  deliveryAddressCity = models.CharField(max_length=100, null=True, blank=True, choices=CITY_CHOICES, default = Harare)
   deliveryAddressNeigbhourhood = models.CharField(max_length=100, null=True, blank=True)
   deliveryAddressResidence = models.CharField(max_length=100, null=True, blank=True)
   isPrimary = models.BooleanField(default=True)
+  country = models.CharField(max_length=100, null=True, blank=True, choices=COUNTRY_CHOICES, default = Zimbabwe)
 
   class Meta:
       verbose_name = ('Package')
       verbose_name_plural = ('Packages')
   def __str__(self):
     return self.reference
+  ## Geocode using full address
+  def _get_full_address(self):
+      return u'%s %s %s %s %s %s' % (self.pickupAddressResidence, self.pickupAddressResidence, self.pickupAddressCity , self.country, self.zipcode)
+  full_address = property(_get_full_address)
+
+  ## Geocode by just using zipcode and country name (faster and more reliable)
+  def _get_geo_address(self):
+      return u'%s %s' % (self.country.name)
+  geo_address = property(_get_geo_address)
+
+
+  def save(self, *args, **kwargs):
+      if not self.location:
+            if self.pickupAddressCity and self.country:
+                location = location = '+'.join(filter(None, (self.pickupAddressResidence, self.pickupAddressResidence, self.pickupAddressCity, self.country)))
+                self.location = get_lat_lng(location)
+      super(Package, self).save(*args, **kwargs)
+
 
         
 
