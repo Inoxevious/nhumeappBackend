@@ -85,11 +85,11 @@ def driver_list(request):
             print('this p0aCKAgte ownr', owner, license_number)
             ride = Driver.objects.filter(owner__contains = str(owner), license_number__contains = str(license_number) )
             if(ride):
-                file = request.query_params.get('file')
-                if(file):
+                picture = request.query_params.get('picture')
+                if(picture):
                     driver = Driver.objects.filter(owner__contains = str(owner), 
                     license_number__contains = str(license_number)).update(
-                        file = file
+                        picture = picture
                     )
                 else:
                     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -100,9 +100,9 @@ def driver_list(request):
                 print("New driver OnBect", new_driver.id)
                 
                 if(request.query_params.get('file')):
-                    file = request.query_params.get('file')
+                    picture = request.query_params.get('picture')
                     driver = Driver.objects.get(id = str(new_driver.id)).update(
-                        file = file
+                        picture = picture
                     )
                 return Response(new_driver.id, status=status.HTTP_201_CREATED)
 
@@ -138,13 +138,16 @@ def driver_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET', 'POST'])
+
 def ride_list(request):
     print('CURRENT REQUEST', request)
+    parser_class = (FileUploadParser,)
     if request.method == 'GET':
         rides = Rides.objects.all()
         serializer = RidesSerializer(rides, context={'request': request}, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
+        parser_class = (FileUploadParser,)
         serializer = RidesSerializer(data=request.data)
         print('Serilizer', request.data)
         if serializer.is_valid():
@@ -153,11 +156,11 @@ def ride_list(request):
             print('this p0aCKAgte ownr', owner, reg_number)
             ride = Rides.objects.filter(owner__contains = str(owner), reg_number__contains = str(owner) )
             if(ride):
-                picture = request.query_params.get('file')
-                if(picture):
+                file = request.FILES['file']
+                if(file):
                     ride = Rides.objects.filter(owner__contains = str(owner), 
                     reg_number__contains = str(owner)).update(
-                        picture = picture
+                        file = file
                     )
                 else:
                     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -168,9 +171,9 @@ def ride_list(request):
                 print("New Ride OnBect", new_packge.id)
                 
                 if(request.query_params.get('file')):
-                    picture = request.query_params.get('file')
+                    file = request.query_params.get('file')
                     ride = Rides.objects.get(id = str(new_packge.id)).update(
-                        picture = picture
+                        file = file
                     )
                 return Response(new_packge.id, status=status.HTTP_201_CREATED)
 
@@ -237,8 +240,8 @@ def getride(request):
     print('CURRENT REQUEST', request)
     reg_number = request.query_params.get('reg_number')
     try:
-        ride = File.objects.filter(reg_number__iexact = str(reg_number))
-    except File.DoesNotExist:
+        ride = Rides.objects.filter(reg_number__iexact = str(reg_number))
+    except Rides.DoesNotExist:
         return Response(status=status.HTTP_400_NOT_FOUND)
     if request.method == 'GET':
         ride = ''
