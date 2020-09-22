@@ -49,15 +49,17 @@ ALLOWED_HOSTS = ['greats.pythonanywhere.com','127.0.0.1', '104.243.37.216']
 # Application definition
 
 INSTALLED_APPS = [
-    'backoffice.apps.BackofficeConfig',
+
     'mush_store',
     'chatbot',
     'products',
     'cart',
     'jet',
+    'backoffice.apps.BackofficeConfig',
     'mapwidgets',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
     'rest_framework_gis',
     'oauth2_provider',
     'django.contrib.admin',
@@ -201,12 +203,16 @@ AUTHENTICATION_BACKENDS = (
 REST_FRAMEWORK = {
       'DEFAULT_AUTHENTICATION_CLASSES': (
        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-      'rest_framework.authentication.BasicAuthentication',
+       'rest_framework.authentication.BasicAuthentication',
+       'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20, 

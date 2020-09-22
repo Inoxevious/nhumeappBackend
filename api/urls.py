@@ -3,8 +3,21 @@ from django.conf.urls import include,url
 from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 from .views import *
+from rest_framework.authtoken.views import obtain_auth_token
+from .views import CreateUserAPIView, LogoutUserAPIView
+
+
 
 urlpatterns = [
+    url(r'^auth/login/$',
+        obtain_auth_token,
+        name='auth_user_login'),
+    url(r'^auth/register/$',
+        CreateUserAPIView.as_view(),
+        name='auth_user_create'),
+    url(r'^auth/logout/$',
+        LogoutUserAPIView.as_view(),
+        name='auth_user_logout'),
         # Drivers Urls
     url(r'^drivers/$',driver_list),
     url(r'^drivers/(?P<pk>[0-9]+)$',driver_detail),

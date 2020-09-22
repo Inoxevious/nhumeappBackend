@@ -24,6 +24,62 @@ from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import FileSerializer, PackageFileSerializer
 from rest_framework.parsers import FileUploadParser
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+from rest_framework import status
+from rest_framework.views import APIView
+from api.serializers import CreateUserSerializer
+
+class PackageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Package
+        fields = '__all__'
+        
+def index(request):
+    rest_list = Package.objects.order_by('-location')
+    context = {'rest_list': rest_list}
+    return render(request, 'unify/index.html', context)
+
+
+# Rest api end point
+def get_rest_list(request):
+    """
+    Returns Json list of all Packages
+    """
+    if request.method == "GET":
+        rest_list = Package.objects.order_by('-location')
+        serializer = PackageSerializer(rest_list, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+class CreateUserAPIView(CreateAPIView):
+    serializer_class = CreateUserSerializer
+    permission_classes = [AllowAny]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        # We create a token than will be used for future auth
+        token = Token.objects.create(user=serializer.instance)
+        token_data = {"token": token.key}
+        return Response(
+            {**serializer.data, **token_data},
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
+
+
+class LogoutUserAPIView(APIView):
+    queryset = get_user_model().objects.all()
+
+    def get(self, request, format=None):
+        # simply delete the token to force a login
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
+
 
 class FileUploadView(APIView):
     parser_class = (FileUploadParser,)
@@ -208,10 +264,7 @@ def ride_detail(request, pk):
         ride.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class PackageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Package
-        fields = '__all__'
+
 
         def get_distance(self, obj):
             return obj.distance_to_user.km

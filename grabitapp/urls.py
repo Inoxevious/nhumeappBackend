@@ -15,6 +15,8 @@ Including another URLconf
 """
 
 from django.contrib import admin
+from django.urls import path, include
+from django.conf.urls import url
 from django.urls import path
 from django.conf.urls import include
 from django.conf import settings
@@ -28,7 +30,8 @@ urlpatterns = [
     path('mush_store/', include('mush_store.urls')),
     path('chatbot/', include('chatbot.urls')),
     path('products/', include('products.urls')),
-    path('api/', include('api.urls')),
+    # path('api/', include('api.urls')),
+    url(r'api/', include('api.urls')),
     path('o/', include('oauth2_provider.urls')),
     path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     path('admin/', admin.site.urls),
